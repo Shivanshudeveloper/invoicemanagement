@@ -27,7 +27,7 @@ export const EstimatesToolbar = ({ handleOpen }) => (
       }}
     >
       <Typography sx={{ m: 1 }} variant="h4">
-        Clients
+        Estimates
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
         <Button
