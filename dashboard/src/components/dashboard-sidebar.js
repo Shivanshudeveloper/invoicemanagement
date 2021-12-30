@@ -10,12 +10,14 @@ import { Lock as LockIcon } from '../icons/lock';
 import { Selector as SelectorIcon } from '../icons/selector';
 import { ShoppingBag as ShoppingBagIcon } from '../icons/shopping-bag';
 import { User as UserIcon } from '../icons/user';
+import  { Clock as ClockIcon } from '../icons/clock';
 import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DescriptionIcon from '@mui/icons-material/Description';
 const items = [
   {
     href: '/',
@@ -26,6 +28,26 @@ const items = [
     href: '/employee',
     icon: (<UsersIcon fontSize="small" />),
     title: 'Employees'
+  },
+  {
+    href: '/employeestimesheets',
+    icon: (<ClockIcon fontSize="small" />),
+    title: 'Employees Timesheets'
+  },
+  {
+    href: '/invoices',
+    icon: (<DescriptionIcon fontSize="small" />),
+    title: 'Invoices'
+  },
+  {
+    href: '/clients',
+    icon: (<UsersIcon fontSize="small" />),
+    title: 'Clients'
+  },
+  {
+    href: '/estimates',
+    icon: (<AccountCircleIcon fontSize="small" />),
+    title: 'Estimates'
   },
   {
     href: '/account',
