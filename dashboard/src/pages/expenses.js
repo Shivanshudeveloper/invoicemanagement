@@ -36,6 +36,10 @@ import { ClientsToolbar } from "src/components/clients/ClientsToolbar";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import InfoIcon from "@mui/icons-material/Info";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import { ExpensesToolbar } from "src/components/Expenses/ExpensesToolbar";
+import { ExpensesList } from "src/components/Expenses/ExpensesList";
 const countries = [
   {
     code: "+7 840",
@@ -982,61 +986,25 @@ const countries = [
     name: "Zimbabwe",
   },
 ];
-const data = [
-  {
-    clientName: "Rosemarie Mitchell",
-    companyName: "Kessler-Corkery",
-    email: "mspencer@bogan.com",
-    date: "30-12-2021",
-  },
-  {
-    clientName: "Dr. Josefa Barton IV",
-    companyName: "Dibbert Ltd",
-    email: "murphy.hermina@hotmail.com",
-    date: "30-12-2021",
-  },
-  {
-    clientName: "Prof. Iva Halvorson Sr.",
-    companyName: "Schiller, Dare and Wehner",
-    email: "adele.powlowski@gmail.com",
-    date: "30-12-2021",
-  },
-  {
-    clientName: "Mabel Zboncak",
-    companyName: "Kiehn, Harvey and Durgan",
-    email: "rempel.ansel@mcglynn.com",
-    date: "30-12-2021",
-  },
-  {
-    clientName: "Robbie Tromp",
-    companyName: "Macejkovic, Conroy and Hintz",
-    email: "ikoch@gmail.com",
-    date: "30-12-2021",
-  },
-  {
-    clientName: "Dr. Raven Carroll",
-    companyName: "IStanton Ltd",
-    email: "clarkin@gmail.com",
-    date: "30-12-2021",
-  },
-];
+const Project = ["Voluptatibus id.", "Aut alias quis sed.", "Et ea ut ut."];
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const Clients = () => {
+const categories = ["Advertising Expenses" , "Business Vehicle(s)" ,"Payroll" ," Employee Benefits." ," Meals & Entertainment Expenses." ," Office Expenses." ," Office Supplies. Professional Services"];
+const Expenses = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [day, setDay] = useState("");
   const [files, setFiles] = useState(null);
   const [value, setValue] = useState("");
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const [items, setItems] = useState([{ id: 1 }]);
   const handleClose = () => {
-   
+        setFiles(null);
     setOpen(false);
-    setFiles(null);
   };
   const handleOpen = () => {
     setOpen(true);
@@ -1051,7 +1019,16 @@ const Clients = () => {
       ))
     );
   }, [acceptedFiles]);
-
+  const deleteItem = (item) => {
+    let Items = [...items];
+    Items = Items.filter((ele) => ele.id !== item.id);
+    setItems(Items);
+  };
+  const addItems = () => {
+    let Items = [...items];
+    Items.push({ id: Math.random() });
+    setItems(Items);
+  };
   return (
     <>
       <Head>
@@ -1066,219 +1043,120 @@ const Clients = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Add Client Info</DialogTitle>
+        <DialogTitle id="alert-dialog-title">ADD EXPENSE</DialogTitle>
         <DialogContent>
-          <Typography sx={{ mt: 2, mb: 2 }} variant="h5">
-            CLIENTS DETAILS
-          </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Box>
-              <Typography sx={{ mt: 2, mb: 2 }} variant="subtitle1">
-                Client Name
+          <Grid
+            sx={{ backgroundColor: "grey" }}
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 5 }} variant="subtitle1">
+                Choose Member
               </Typography>
-              <FormControl sx={{ width: "15%" }}>
+
+              <TextField fullWidth type="text" />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 5 }} variant="subtitle1">
+                Project
+              </Typography>
+              <FormControl fullWidth>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={"..."}
-                  label="e"
+                  value={"Select Project"}
+                  label=""
                   onChange={() => {}}
                 >
-                  <MenuItem value={"Mr"}>Mr</MenuItem>
-                  <MenuItem value={"Mrs"}>Mrs</MenuItem>
-                  <MenuItem value={"Miss"}>Miss</MenuItem>
-                  <MenuItem value={"Dr."}>Dr.</MenuItem>
-                  <MenuItem value={"Sir"}>Sir</MenuItem>
-                  <MenuItem value={"Madam"}>Madam</MenuItem>
+                  <MenuItem value={"Select Project"}>Select Project</MenuItem>
+                  {Project.map((p, id) => (
+                    <MenuItem key={id} value={p}>
+                      {p}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-              <TextField type="text" />
-            </Box>
-            <Box>
-              <Typography sx={{ mt: 2, mb: 2 }} variant="subtitle1">
-                Client Email
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 5 }} variant="subtitle1">
+                Expense Category
               </Typography>
-              <TextField type="text" />
-            </Box>
-            <Box>
-              <Typography sx={{ mt: 2, mb: 2 }} variant="subtitle1">
-                Password
-              </Typography>
-              <TextField type="password" />
-            </Box>
-          </Box>
-
-          <Typography sx={{ mt: 10, mb: 2 }} variant="h5">
-            COMPANY DETAILS
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-            <Box>
-              <Typography sx={{ mt: 2, mb: 2 }} variant="subtitle1">
-                Company Name
-              </Typography>
-
-              <TextField type="text" />
-            </Box>
-            <Box>
-              <Typography sx={{ mt: 2, mb: 2, ml: 10 }} variant="subtitle1">
-                Website
-              </Typography>
-              <FormControl sx={{ width: "80px", mr: 5, ml: 10 }}>
+              <FormControl fullWidth>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={"..."}
-                  label="..."
+                  value={"Select Category"}
+                  label=""
                   onChange={() => {}}
                 >
-                  <MenuItem value={"http://"}>http://</MenuItem>
-                  <MenuItem value={"https://"}>https://</MenuItem>
+                  <MenuItem value={"Select Category"}>Select Category</MenuItem>
+                  {categories.map((p, id) => (
+                    <MenuItem key={id} value={p}>
+                      {p}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-              <TextField type="text" />
-            </Box>
-          </Box>
-          <Typography sx={{ mt: 2, mb: 2 }} row="4" variant="h6">
-            Address
-          </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 2, mb: 2 }} variant="subtitle1">
+                Currency
+              </Typography>
+              <FormControl fullWidth>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={"$ (USD)"}
+                  onChange={() => {}}
+                >
+                  <MenuItem value={"$ (USD)"}>$ (USD)</MenuItem>
+                  <MenuItem value={"£ (GBP)"}>£ (GBP)</MenuItem>
+                  <MenuItem value={"€ (EUR)"}>€ (EUR)</MenuItem>
+                  <MenuItem value={"₹ (INR)"}>₹ (INR)</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 5 }} variant="subtitle1">
+                Item Name
+              </Typography>
+
+              <TextField fullWidth type="text" />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 5 }} variant="subtitle1">
+                Price
+              </Typography>
+
+              <TextField fullWidth type="text" />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 5 }} variant="subtitle1">
+                Purchased from
+              </Typography>
+
+              <TextField fullWidth type="text" />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 5 }} variant="subtitle1">
+                Purchase Date
+              </Typography>
+
+              <TextField fullWidth type="date" />
+            </Grid>
+          </Grid>
+
           <TextField
+            sx={{ mt: 10 }}
+            label="Note"
             id="outlined-multiline-static"
             fullWidth
-            label="Address"
             multiline
             rows={4}
-            sx={{ mt: 2 }}
           />
-
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                Mobile
-              </Typography>
-              <FormControl sx={{ width: "80px" }}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={""}
-                  label="..."
-                  onChange={() => {}}
-                >
-                  {countries.map((name, id) => (
-                    <MenuItem key={id} value={name.code}>
-                      {name.code}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                Office Phone Number
-              </Typography>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                City
-              </Typography>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                State
-              </Typography>
-              <TextField type="text" />
-            </Grid>
-          </Grid>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                Country
-              </Typography>
-
-              <FormControl sx={{ width: "300px" }}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={""}
-                  label="..."
-                  onChange={() => {}}
-                >
-                  {countries.map((name, id) => (
-                    <MenuItem key={id} value={name.name}>
-                      {name.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                Postal code
-              </Typography>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                Client Category
-              </Typography>
-              <FormControl>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={"Select Category"}
-                  label="..."
-                  onChange={() => {}}
-                >
-                  <MenuItem value={"Select Category"}>Select Category</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography sx={{ mt: 5 }} variant="subtitle1">
-                {" "}
-                Client SubCategory{" "}
-              </Typography>
-              <FormControl>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={"Select Category"}
-                  label="..."
-                  onChange={() => {}}
-                >
-                  <MenuItem value={"Select Category"}>Select Category</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-          <Typography sx={{ mt: 10, mb: 2 }} variant="h5">
-            CLIENT OTHER DETAILS
-          </Typography>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            <Grid item xs={3}>
-              <Typography variant="subtitle1">Skype</Typography>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="subtitle1">Linkedin</Typography>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="subtitle1">Twitter</Typography>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="subtitle1">Facebook</Typography>
-              <TextField type="text" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="subtitle1">GST Number</Typography>
-              <TextField type="text" />
-            </Grid>
-          </Grid>
-          <section
+                  <section
             style={{
               backgroundColor: "#F0F8FF",
               border: "1px solid white",
@@ -1301,8 +1179,8 @@ const Clients = () => {
               }}
             >
               <input {...getInputProps()} />
-              <h2>Drag and Drop Profile Picture here</h2> <h2>or</h2>
-              <Button variant="outlined"> Select Image</Button>
+              <h2>Drag and Drop File  here</h2> <h2>or</h2>
+              <Button variant="outlined"> Select File</Button>
               <CloudUploadIcon sx={{ fontSize: "2.2em" }} />
             </Box>
             <Box
@@ -1315,66 +1193,6 @@ const Clients = () => {
               <ul>{files}</ul>
             </Box>
           </section>
-          <Typography sx={{ mt: 2 }} variant="subtitle1">
-            Shipping Address
-          </Typography>
-          <TextField sx={{mb:5}} id="outlined-multiline-static" fullWidth multiline rows={4} />
-
-          <ReactQuill theme="snow" style={{ height: "200px" }} value={value} onChange={setValue} />
-          <Box sx={{ mt: 10 }}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={3}>
-                <Tooltip title="Do you want to sen Credentials via E-mmail to Client?">
-                  <Button>
-                    <InfoIcon />
-                  </Button>
-                </Tooltip>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Send Credentials </FormLabel>
-
-                  <RadioGroup
-                    row
-                    aria-label="Send Credentials"
-                    defaultValue="Yes"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={3}>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Email Notifications </FormLabel>
-
-                  <RadioGroup
-                    row
-                    aria-label="Email Notifications"
-                    defaultValue="Enable"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel value="Enable" control={<Radio />} label="Enable" />
-                    <FormControlLabel value="Disable" control={<Radio />} label="Disable" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography variant="subtitle1">Change Language</Typography>
-                <FormControl>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={"Change Language"}
-                    label="..."
-                    onChange={() => {}}
-                  >
-                    <MenuItem value={"Change Language"}>Change Language</MenuItem>
-                    <MenuItem value={"English"}>English</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-          </Box>
         </DialogContent>
         <DialogActions>
           {loading ? <CircularProgress /> : null}
@@ -1385,9 +1203,9 @@ const Clients = () => {
             disabled={loading}
             variant="contained"
             size="large"
-            color="secondary"
             onClick={fileSubmit}
             autoFocus
+            color="secondary"
           >
             Save
           </Button>
@@ -1402,15 +1220,15 @@ const Clients = () => {
         }}
       >
         <Container maxWidth={false}>
-          <ClientsToolbar handleOpen={handleOpen} />
+          <ExpensesToolbar handleOpen={handleOpen} />
           <Box sx={{ mt: 3 }}>
-            <ClientsList data={data} />
+            <ExpensesList data={[]} />
           </Box>
         </Container>
       </Box>
     </>
   );
 };
-Clients.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+Expenses.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default Clients;
+export default Expenses;

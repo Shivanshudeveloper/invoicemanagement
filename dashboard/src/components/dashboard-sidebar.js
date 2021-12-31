@@ -18,6 +18,7 @@ import { Logo } from './logo';
 import { NavItem } from './nav-item';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DescriptionIcon from '@mui/icons-material/Description';
+import MoneyIcon from '@mui/icons-material/Money';
 const items = [
   {
     href: '/',
@@ -48,6 +49,11 @@ const items = [
     href: '/estimates',
     icon: (<AccountCircleIcon fontSize="small" />),
     title: 'Estimates'
+  },
+  {
+    href: '/expenses',
+    icon: (<MoneyIcon fontSize="small" />),
+    title: 'Expenses'
   },
   {
     href: '/account',
